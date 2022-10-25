@@ -106,6 +106,7 @@ class Welcome extends CI_Controller {
 	
 	public function logOutUser()
 	{
+		$matriz[0]=0;
 		$this->session->info=0;
 		$this->load->view('Inicio', $matriz);
 	}
@@ -318,13 +319,22 @@ class Welcome extends CI_Controller {
 	{
 		$user =strtolower($this->input->post('user'));
 		$pass =$this->input->post('pass');
-		if($this->Modelo1->loginSubuser($user, $pass))
+		$id=$this->Modelo1->loginSubuser($user, $pass);
+		if($id)
 		{
-			$this->load->view('subuserDashboard');
+			$subUserInfo=$this->Modelo1->getSubUser($id);
+			$this->load->view('subuserDashboard', $subUserInfo);
 		}
 		else
 		{
 			$this->inicioError(2);
 		}
+	}
+	
+	public function logOutSubUser()
+	{
+		$matriz[0]=0;
+		$this->session->info=0;
+		$this->load->view('Inicio', $matriz);
 	}
 }

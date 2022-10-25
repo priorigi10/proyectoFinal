@@ -26,6 +26,7 @@ a {
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
     border: .1em solid rgba(0, 0, 0, 0.2);
     margin-bottom: 1em;
+    position: relative;
 }
 
 .profile-user-page .img-user-profile {
@@ -46,10 +47,9 @@ a {
     padding: 0.25em;
     border-radius: .4em;
     margin-top: -10em;
-    box-shadow: 0 0 .1em rgba(0, 0, 0, 0.35);
 }
 
-.profile-user-page button {
+.newLog {
     position: absolute;
     font-size: 13px;
     font-weight: bold;
@@ -63,10 +63,31 @@ a {
     padding: .80em;
 }
 
-.profile-user-page button:hover {
+.newLog:hover {
     background: #51a7e0;
     transition: background .2s ease-in-out;
     border: 1px solid #2487c9;
+}
+
+.disconect {
+    position: absolute;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 7em;
+    background: #db3434;
+    border: 1px solid #c92424;
+    color: #fff;
+    outline: none;
+    border-radius: .6em 0 0 .6em;
+    padding: .80em;
+    right: 0;
+}
+
+.disconect:hover {
+    background: #e05151;
+    transition: background .2s ease-in-out;
+    border: 1px solid #c92424;
 }
 
 .profile-user-page .user-profile-data,

@@ -119,7 +119,7 @@
                                 <p class="price">
                                     <sup>€</sup>
                                     <span>0</span>
-                                    <sub>/mo.</sub>
+                                    <!-- <sub>/mo.</sub> -->
                                 </p>
                                 <p class="hint">Perfecto para hacer pruebas</p>
                             </div>
@@ -132,9 +132,9 @@
                             </ul>
                             <!-- /FEATURES -->
                             <!-- PT-FOOTER -->
-                            <div class="pt-footer">
+                            <!-- <div class="pt-footer">
                                 <p>Mejorar</p>
-                            </div>
+                            </div> -->
                             <!-- /PT-FOOTER -->
                         </div>
                         <!-- /PERSONAL -->
@@ -146,7 +146,7 @@
                                 <p class="price">
                                     <sup>€</sup>
                                     <span>30</span>
-                                    <sub>/mo.</sub>
+                                    <!-- <sub>/mo.</sub> -->
                                 </p>
                                 <p class="hint">Ideal para usuarios con pocas becas</p>
                             </div>
@@ -159,9 +159,29 @@
                             </ul>
                             <!-- /FEATURES -->
                             <!-- PT-FOOTER -->
-                            <div class="pt-footer">
-                                <p>Mejorar</p>
-                            </div>
+                            <?php 
+                                if($RANK==0)
+                                {?>
+                                    
+                                <div class='pt-footer'>
+                                    <form id="realizarPago" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                                        <input name="cmd" type="hidden" value="_cart" />
+                                        <input name="upload" type="hidden" value="1" />
+                                        <input name="business" type="hidden" value="carlosllorentellorente@gmail.com" />
+                                        <input name="shopping_url" type="hidden" value="http://www.carlosllorente.es/index.php/welcome/userRanks" />
+                                        <input name="currency_code" type="hidden" value="EUR" />
+                                        <input name="return" type="hidden" value="http://www.carlosllorente.es/index.php/welcome/userRanks" />
+                                        <input name="notify_url" type="hidden" value="http://www.carlosllorente.es/index.php/welcome/verifyPayment" />
+                                        <input name="rm" type="hidden" value="2" />
+                                        <input name="item_number_1" type="hidden" value="1" />
+                                        <input name="item_name_1" type="hidden" value="rank 1" />
+                                        <!-- <input name="amount_1" type="hidden" value="30" /> -->
+                                        <input name="amount_1" type="hidden" value="1" />
+                                        <input name="quantity_1" type="hidden" value="1" /> 
+                                        <input name="submitPayment" type="submit" value="Mejorar">
+                                    </form>
+                                </div>
+                            <?php } ?>
                             <!-- /PT-FOOTER -->
                         </div>
                         <!-- /PROFESSIONAL -->
@@ -173,7 +193,7 @@
                                 <p class="price">
                                     <sup>€</sup>
                                     <span>50</span>
-                                    <sub>/mo.</sub>
+                                    <!-- <sub>/mo.</sub> -->
                                 </p>
                                 <p class="hint">El mejor para empresas o ballenas</p>
                             </div>
@@ -188,9 +208,51 @@
                             <!-- /FEATURES -->
 
                             <!-- PT-FOOTER -->
-                            <div class="pt-footer">
-                                <p>Mejorar</p>
-                            </div>
+                            <?php 
+                            if($RANK==0)
+                            {?>
+                                <div class='pt-footer'>
+                                    <form id="realizarPago" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                                        <input name="cmd" type="hidden" value="_cart" />
+                                        <input name="upload" type="hidden" value="1" />
+                                        <input name="business" type="hidden" value="carlosllorentellorente@gmail.com" />
+                                        <input name="shopping_url" type="hidden" value="http://www.carlosllorente.es/index.php/welcome/userRanks" />
+                                        <input name="currency_code" type="hidden" value="EUR" />
+                                        <input name="return" type="hidden" value="http://www.carlosllorente.es/index.php/welcome/userRanks" />
+                                        <input name="notify_url" type="hidden" value="http://www.carlosllorente.es/index.php/welcome/verifyPayment" />
+                                        <input name="rm" type="hidden" value="2" />
+                                        <input name="item_number_1" type="hidden" value="1" />
+                                        <input name="item_name_1" type="hidden" value="rank 1" />
+                                        <input name="amount_1" type="hidden" value="1" />
+                                        <!-- <input name="amount_1" type="hidden" value="50" /> -->
+                                        <input name="quantity_1" type="hidden" value="1" /> 
+                                        <input name="submitPayment" type="submit" value="Mejorar">
+                                    </form>
+                                </div>
+                            <?php 
+                            }
+                            else if($RANK==1)
+                            {?>
+                                <div class='pt-footer'>
+                                    <form id="realizarPago" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                                        <input name="cmd" type="hidden" value="_cart" />
+                                        <input name="upload" type="hidden" value="1" />
+                                        <input name="business" type="hidden" value="carlosllorentellorente@gmail.com" />
+                                        <input name="shopping_url" type="hidden" value="http://www.carlosllorente.es/index.php/welcome/userRanks" />
+                                        <input name="currency_code" type="hidden" value="EUR" />
+                                        <input name="return" type="hidden" value="http://www.carlosllorente.es/index.php/welcome/userRanks" />
+                                        <input name="notify_url" type="hidden" value="http://www.carlosllorente.es/index.php/welcome/verifyPayment" />
+                                        <input name="rm" type="hidden" value="2" />
+                                        <input name="item_number_1" type="hidden" value="1" />
+                                        <input name="item_name_1" type="hidden" value="rank 1" />
+                                        <!-- <input name="amount_1" type="hidden" value="50" /> -->
+                                        <input name="amount_1" type="hidden" value="1" />
+                                        <input name="quantity_1" type="hidden" value="1" /> 
+                                        <input name="submitPayment" type="submit" value="Mejorar">
+                                    </form>
+                                </div>
+                            <?php 
+                            }?>
                             <!-- /PT-FOOTER -->
                         </div>
                         <!-- /BUSINESS -->

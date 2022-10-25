@@ -988,6 +988,13 @@ body {
 .pt-footer {
     font-size: 1.5rem;
     text-transform: capitalize;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.pt-footer input {
+    background-color: transparent;
+    width: 100%;
 }
 
 

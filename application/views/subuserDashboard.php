@@ -14,17 +14,24 @@
         <div class="profile-user-page card">
             <div class="img-user-profile">
                 <img class="profile-bgHome" src="<?= base_url() . 'images/pagina/dashboardBackground.jpg'; ?>" />
-                <img class="avatar" src="<?= base_url() . 'images/users/default.png'; ?>" alt="jofpin"/>
+                <img class="avatar" src="<?= base_url() . 'images/users/rand/'.$IMAGE.'.png'; ?>" alt="Error al mostrar la imagen"/>
             </div>
-            <button>Crear Registro</button>
+            <button class="newLog">Crear Registro</button>
+            <button class="disconect">Desconectar</button>
+            <?php echo form_open('Welcome/newLog', 'id="newLog"'); ?>
+                <button class="newLog">Crear Registro</button>
+            <?php echo form_close(); ?>
+            <?php echo form_open( site_url(), 'id="atras"'); ?>
+                <button type="submit" class="disconect">Desconectar</button>
+            <?php echo form_close(); ?>
             <div class="user-profile-data">
-                <h1>Carlos Llorente</h1>
-                <p>Becado por: Priorigi_10</p>
+                <h1><?=$NAME_SUBUSER?></h1>
+                <p>Becado por: <?=$GRANT_BOSS?></p>
             </div>
             <ul class="data-user">
-                <li><a><strong>120</strong><span>Registros</span></a></li>
-                <li><a><strong>3</strong><span>NFT´s</span></a></li>
-                <li><a><strong>40%</strong><span>Porcentaje</span></a></li>
+                <li><a><strong><?=$LOGS?></strong><span>Registros</span></a></li>
+                <li><a><strong><?=$NFTs?></strong><span>NFT´s</span></a></li>
+                <li><a><strong><?=$PERCENT?>%</strong><span>Porcentaje</span></a></li>
             </ul>
         </div>
     </div>

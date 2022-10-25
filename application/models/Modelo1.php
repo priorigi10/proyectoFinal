@@ -179,7 +179,7 @@ class Modelo1 extends CI_Model
             'INFO' => $info,
             'ID_USER' => $user
         );
-        $data['PASSWORD']=password_hash($data['PASSWORD'], PASSWORD_DEFAULT, ["cost" => 10]);
+        $data['PASSWORD']=password_hash($data['PASSWORD'], PASSWORD_DEFAULT);
             
         $this->db->insert('SUBUSERS', $data);
     }
@@ -219,7 +219,7 @@ class Modelo1 extends CI_Model
 
     function loginSubuser($user, $pass)
     {
-        $this->db->select('PASSWORD');
+        $this->db->select('PASSWORD, ID_SUBUSER');
         $this->db->where('NAME_SUBUSER', $user);
         $this->db->where('VALID', 1);
         $query=$this->db->get('SUBUSERS');
@@ -229,19 +229,53 @@ class Modelo1 extends CI_Model
             // if(strcmp('KYNBOoZz13', $pass)==0)
             //     return true;
 
-            echo'<script type="text/javascript">
-            alert("'.$pass.'\n'.$fila->PASSWORD.'");
-            </script>';
-            echo'<script type="text/javascript">
-            alert("'.(password_verify($pass, $fila->PASSWORD)).'");
-            </script>';
-            return true;
+            // echo'<script type="text/javascript">
+            // alert("'.$pass.'\n'.$fila->PASSWORD.'");
+            // </script>';
+            // echo'<script type="text/javascript">
+            // alert("'.(password_verify($pass, $fila->PASSWORD)).'");
+            // </script>';
+            // return true;
             if(password_verify($pass, $fila->PASSWORD))
-                return true;
+                return $fila->ID_SUBUSER;
             else
                 return false;
         }
         return false;
+    }
+
+    function getSubUser($id)
+    {
+        $this->db->select('ID_SUBUSER, NAME_SUBUSER, MAIL, IMAGE, WALLET, INFO, VERIFIED, VALID, ID_USER');
+        $this->db->where('ID_SUBUSER', $id);
+        $query=$this->db->get('SUBUSERS');
+        foreach($query->result() as $fila)
+        { 
+            $subUserInfo['ID_SUBUSER']=$fila->ID_SUBUSER;
+            $subUserInfo['NAME_SUBUSER']=$fila->NAME_SUBUSER;
+            $subUserInfo['MAIL']=$fila->MAIL;
+            $subUserInfo['IMAGE']=$fila->IMAGE;
+            $subUserInfo['WALLET']=$fila->WALLET;
+            $subUserInfo['INFO']=$fila->INFO;
+            $subUserInfo['VERIFIED']=$fila->VERIFIED;
+            $subUserInfo['VALID']=$fila->VALID;
+            $subUserInfo['ID_USER']=$fila->ID_USER;
+        }
+
+        $this->db->select('USER');
+        $this->db->where('ID_USER', $subUserInfo['ID_USER']);
+        $this->db->where('VALID', 1);
+        $aux=$this->db->get("USERS");
+        foreach ($aux->result() as $grantBoss) 
+        // if ($aux->result()) 
+        {
+            $subUserInfo['GRANT_BOSS']=$grantBoss->USER;
+        }
+        
+        $subUserInfo['LOGS']=123;
+        $subUserInfo['NFTs']=4;
+        $subUserInfo['PERCENT']=45;
+        return $subUserInfo;
     }
 }
 ?>
