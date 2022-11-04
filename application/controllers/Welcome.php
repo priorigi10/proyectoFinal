@@ -45,6 +45,10 @@ class Welcome extends CI_Controller {
 				$matriz['errorMsg']="False";
 				$matriz['msgColor']="BLUE";
 			break;
+			case 4:
+				$matriz['errorMsg']="La cuenta tiene que estar vinculada a una Beca.";
+				$matriz['msgColor']="RED";
+			break;
 		}
 		$matriz[0]=0;
 		$this->load->view('startError', $matriz);
@@ -308,11 +312,47 @@ class Welcome extends CI_Controller {
 	public function createGrant()
 	{
 		$info=$this->session->info;
-		$subuser=$this->input->post('subuser');
+		$info=$this->Modelo1->getUserInfo($info["USER"]);
+		$user=$this->input->post('user');
+		$idSubuser=$this->input->post('idSubuser');
 		$percent=$this->input->post('percent');
 		$review=$this->input->post('review');
 		$nftSubuser=$this->input->post('nftSubuser');
-		$nftSubuser=$this->input->post('nftSubuser');
+		
+		// echo '<script type="text/javascript">
+		// alert("';
+		$cont=0;
+		$NFTgrant[]="";
+		foreach($_POST as $name=>$value)
+		{
+			if($cont>=(count($_POST)-4))
+				break;
+			array_push($NFTgrant, $value);
+			$cont++;
+		}
+		if($cont==0)
+			echo "ERROR";////////////////////////////////////////////
+		else
+		{
+			array_shift($NFTgrant);
+			// foreach($NFTgrant as $name=>$value)
+			// {
+			// 	echo $name.'->'.$value.'\n';
+			// }
+			$this->Modelo1->createGrant($user, $idSubuser, $percent, $review, $NFTgrant);
+		}
+		// echo '");
+		// </script>';
+		$info=$this->Modelo1->getUserInfo($info["USER"]);
+		$this->load->view('manageGrants', $info);
+		// $this->load->view('userDashboard', $info);
+	}
+
+	public function manageGrants()
+	{
+		$info=$this->session->info;
+		$info=$this->Modelo1->getUserInfo($info["USER"]);
+		$this->load->view('manageGrants', $info);
 	}
 
 	public function loginSubuser()
@@ -323,7 +363,12 @@ class Welcome extends CI_Controller {
 		if($id)
 		{
 			$subUserInfo=$this->Modelo1->getSubUser($id);
-			$this->load->view('subuserDashboard', $subUserInfo);
+			if($subUserInfo['ID_GRANT']!="")
+			{
+				$this->load->view('subuserDashboard', $subUserInfo);
+			}
+			else
+				$this->inicioError(4);
 		}
 		else
 		{
@@ -337,4 +382,129 @@ class Welcome extends CI_Controller {
 		$this->session->info=0;
 		$this->load->view('Inicio', $matriz);
 	}
+
+	public function newLogLogSubUser()
+	{
+		$id=$this->input->post('idSubUser');
+		$subUserInfo=$this->Modelo1->getSubUser($id);
+		$this->load->view('newLog', $subUserInfo);
+	}
+
+	public function createLogSubUser()
+	{
+		$game=$this->input->post('game');
+		$subject=$this->input->post('subject');
+		$amount=$this->input->post('amount');
+		$type=$this->input->post('type');
+		$message=$this->input->post('message');
+		$idGrant=$this->input->post('idGrant');
+		
+		$id=$this->input->post('idSubUser');
+		if($this->Modelo1->createLogSubUser($game, $subject, $amount, $type, $message, $idGrant))
+		{
+			$subUserInfo=$this->Modelo1->getSubUser($id);
+			$subUserInfo['errorMsg']="Informe enviado con exito.";
+			$subUserInfo['msgColor']="GREEN";
+		}
+		else
+		{
+			$subUserInfo=$this->Modelo1->getSubUser($id);
+			$subUserInfo['errorMsg']="Ha ocurrido algun error, vuelve a interntarlo.";
+			$subUserInfo['msgColor']="RED";
+		}
+		$this->load->view('subuserDashboard', $subUserInfo);
+
+	}
+
+	public function cancelLogSubUser()
+	{
+		$id=$this->input->post('idSubUser');
+		$subUserInfo=$this->Modelo1->getSubUser($id);
+		$this->load->view('subuserDashboard', $subUserInfo);
+	}
+
+	public function changeSubuserLogPage()
+	{
+		$id=$this->input->post('idSubUser');
+		$subUserInfo=$this->Modelo1->getSubUser($id);
+		$subUserInfo['PAGE']=$this->input->post('newPag');
+		$this->load->view('subuserDashboard', $subUserInfo);
+	}
+
+	public function changeGrantPage()
+	{
+		$info=$this->session->info;
+		$info=$this->Modelo1->getUserInfo($info["USER"]);
+		$info['PAGE']=$this->input->post('newPag');
+		$this->load->view('manageGrants', $info);
+	}
+	
+
+	public function searchGrant()
+	{
+		$info=$this->session->info;
+		$info=$this->Modelo1->getUserInfo($info["USER"]);
+		if($this->input->post('number')!=null)
+			$info['searchNumber']=$this->input->post('number');
+		if($this->input->post('name')!=null)
+			$info['searchName']=$this->input->post('name');
+		if($this->input->post('mail')!=null)
+			$info['searchMail']=$this->input->post('mail');
+		$this->load->view('manageGrants', $info);
+	}
+
+	public function invalidGrant()
+	{
+		$info=$this->session->info;
+		$info=$this->Modelo1->getUserInfo($info["USER"]);
+		
+		$idGrant=$this->input->post('idGrant');
+		$this->Modelo1->invalidGrant($idGrant);
+
+		$info=$this->session->info;
+		$info=$this->Modelo1->getUserInfo($info["USER"]);
+		$this->load->view('manageGrants', $info);
+	}
+	
+	public function manageLogs()
+	{
+		$info=$this->session->info;
+		$info=$this->Modelo1->getUserInfo($info["USER"]);
+		$this->load->view('manageLogs', $info);
+	}
+
+	public function changeLogsPage()
+	{
+		$info=$this->session->info;
+		$info=$this->Modelo1->getUserInfo($info["USER"]);
+		$info['PAGE']=$this->input->post('newPag');
+		$this->load->view('manageLogs', $info);
+	}
+	
+	public function searchLog()
+	{
+		$info=$this->session->info;
+		$info=$this->Modelo1->getUserInfo($info["USER"]);
+		if($this->input->post('number')!=null)
+			$info['searchNumber']=$this->input->post('number');
+		if($this->input->post('name')!=null)
+			$info['searchName']=$this->input->post('name');
+		if($this->input->post('game')!=null)
+			$info['searchGame']=$this->input->post('game');
+		$this->load->view('manageLogs', $info);
+	}
+
+	public function invalidLog()
+	{
+		$info=$this->session->info;
+		$info=$this->Modelo1->getUserInfo($info["USER"]);
+		
+		$idLog=$this->input->post('logID');
+		$this->Modelo1->invalidLog($idLog);
+
+		$info=$this->session->info;
+		$info=$this->Modelo1->getUserInfo($info["USER"]);
+		$this->load->view('manageLogs', $info);
+	}
+
 }

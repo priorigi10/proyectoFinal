@@ -97,10 +97,31 @@ class Modelo1 extends CI_Model
         $info["NFTs"]=$this->db->get("NFT");
         $info["NFTs_total"]=$info["NFTs"]->num_rows();
 
-        $this->db->where('ID_USER', $info["ID_USER"]);
-        $this->db->where('VALID', 1);
+        
+        // $this->db->select('SUBUSERS.ID_USER, SUBUSERS.NAME_USER, SUBUSERS.MAIL, SUBUSERS.WALLET, SUBUSERS.INFO, SUBUSERS.IMAGE, SUBUSERS.ID_USER, SUBUSERS.VERIFIED, SUBUSERS.VALID, SUBUSERS.ID_USER');
+        $this->db->select('SUBUSERS.*, GRANTS.ID_GRANT');
+        $this->db->select('GRANTS.VALID as GRANTVALID');
+        $this->db->where('SUBUSERS.ID_USER', $info["ID_USER"]);
+        $this->db->where('SUBUSERS.VALID', 1);
+        $this->db->join('GRANTS', 'GRANTS.ID_SUBUSER = SUBUSERS.ID_SUBUSER', 'LEFT');
         $info["SUBUSERS"]=$this->db->get("SUBUSERS");
         $info["subusers_total"]=$info["SUBUSERS"]->num_rows();
+        
+        $this->db->where('GRANTS.ID_USER', $info["ID_USER"]);
+        $this->db->where('GRANTS.VALID', 1);
+        $this->db->join('SUBUSERS', 'SUBUSERS.ID_SUBUSER = GRANTS.ID_SUBUSER', 'LEFT');
+        $this->db->order_by('GRANTS.DATE_START', 'DESC');
+        $info["GRANTS"]=$this->db->get("GRANTS");
+        $info["grants_total"]=$info["GRANTS"]->num_rows();
+
+        $this->db->select('SUBUSERLOGS.*, GRANTS.*, SUBUSERS.*');
+        $this->db->where('GRANTS.ID_USER', $info["ID_USER"]);
+        $this->db->where('SUBUSERLOGS.VALID', 1);
+        $this->db->join('GRANTS', 'SUBUSERLOGS.ID_GRANT = GRANTS.ID_GRANT', 'LEFT');
+        $this->db->join('SUBUSERS', 'GRANTS.ID_SUBUSER = SUBUSERS.ID_SUBUSER', 'LEFT');
+        $this->db->order_by('SUBUSERLOGS.DATE_LOG', 'DESC');
+        $info["LOGS"]=$this->db->get("SUBUSERLOGS");
+        $info["LOGS_total"]=$info["LOGS"]->num_rows();
 
         return $info;
     }
@@ -262,6 +283,10 @@ class Modelo1 extends CI_Model
             $subUserInfo['ID_USER']=$fila->ID_USER;
         }
 
+		// echo'<script type="text/javascript">
+		// 		alert("'.$id.'");
+		// 		</script>';
+            
         $this->db->select('USER');
         $this->db->where('ID_USER', $subUserInfo['ID_USER']);
         $this->db->where('VALID', 1);
@@ -271,11 +296,113 @@ class Modelo1 extends CI_Model
         {
             $subUserInfo['GRANT_BOSS']=$grantBoss->USER;
         }
+        $this->db->select('*');
+        $this->db->where('ID_USER', $subUserInfo['ID_USER']);
+        $this->db->where('ID_SUBUSER', $subUserInfo['ID_SUBUSER']);
+        $aux=$this->db->get("GRANTS");
+        foreach ($aux->result() as $grantInfo) 
+        // if ($aux->result()) 
+        {
+            $subUserInfo['PERCENT']=$grantInfo->PERCENT;
+            $subUserInfo['ID_GRANT']=$grantInfo->ID_GRANT;
+        }
+
+        $this->db->select('*');
+        $this->db->where('ID_GRANT', $subUserInfo['ID_GRANT']);
+        $subUserInfo['NFTs']=$this->db->get("NFT");
         
-        $subUserInfo['LOGS']=123;
-        $subUserInfo['NFTs']=4;
-        $subUserInfo['PERCENT']=45;
+        $subUserInfo["NFTsTotal"]=$subUserInfo['NFTs']->num_rows();
+
+        $this->db->select('*');
+        $this->db->where('ID_GRANT', $subUserInfo['ID_GRANT']);
+        $this->db->order_by('DATE_LOG', 'DESC');
+        $subUserInfo['LOGS']=$this->db->get("SUBUSERLOGS");
+        
+        $subUserInfo["logsTotal"]=$subUserInfo['LOGS']->num_rows();
+        
+        // $subUserInfo['LOGS']=123;
+        // $subUserInfo['NFTsTotal']=4;
+        // $subUserInfo['PERCENT']=45;
         return $subUserInfo;
+    }
+
+    function createLogSubUser($game, $subject, $amount, $type, $message, $idGrant)
+    {
+        $data = array( 
+            'GAME'=> $game,
+            'SUBJECT' => $subject,
+            'AMOUNT' => $amount,
+            'TYPE' => $type,
+            'MESSAGE' => $message,
+            'ID_GRANT' => $idGrant
+        );
+            
+        $this->db->insert('SUBUSERLOGS', $data);
+        return true;
+    }
+
+    function createGrant($user, $subuser, $percent, $review, $NFTgrant)
+    {
+        $data = array( 
+            'ID_USER'=> $user,
+            'ID_SUBUSER'=> $subuser,
+            'PERCENT' => $percent,
+            'REVIEW' => $review,
+            'DATE_START' => date("Y-m-d")
+        );
+        $this->db->insert('GRANTS', $data);
+
+        $this->db->select('*');
+        $this->db->where('ID_USER', $user);
+        $this->db->where('ID_SUBUSER', $subuser);
+        $aux=$this->db->get("GRANTS");
+        foreach ($aux->result() as $info) 
+        {
+            $idGrant=$info->ID_GRANT;
+        }
+
+        foreach($NFTgrant as $name=>$value)
+        {
+            
+            $this->db->where('ID_NFT', $value);
+            $this->db->set('ID_GRANT', $idGrant);
+            $this->db->update('NFT');
+        }
+            
+        return true;
+    }
+    
+
+    function invalidGrant($idGrant)
+    {
+        // $this->db->select('*');
+        // $this->db->where('ID_GRANT', $idGrant);
+        // $this->db->where('VALID', 1);
+        // $aux=$this->db->get("NFT");
+        // foreach ($aux->result() as $info) 
+        // {
+        // }
+
+        $this->db->where('ID_GRANT', $idGrant);
+        $this->db->where('VALID', 1);
+        $this->db->set('ID_GRANT', NULL);
+        $this->db->update('NFT');
+
+        $this->db->where('ID_GRANT', $idGrant);
+        $this->db->set('VALID', '0');
+        $this->db->update('GRANTS');
+
+        return true;
+    }
+    
+
+    function invalidLog($idLog)
+    {
+        $this->db->where('ID_SUBUSERLOGS', $idLog);
+        $this->db->set('VALID', '0');
+        $this->db->update('SUBUSERLOGS');
+
+        return true;
     }
 }
 ?>

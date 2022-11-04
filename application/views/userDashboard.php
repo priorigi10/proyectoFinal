@@ -78,10 +78,18 @@
           </div>
           </a>
         </li>
+        <li>
+          <a href="<?php echo site_url(); ?>/welcome/manageLogs">
+          <div class="navList__subheading row row--align-v-center">
+            <span class="navList__subheading-icon"><i class="fas fa-clipboard-list"></i></span>
+            <span class="navList__subheading-title">Consultar logs</span>
+          </div>
+          </a>
+        </li>
 
         <li class="navList__heading">Becas</li>
         <li>
-          <a href="<?php echo site_url(); ?>/welcome/plantilla">
+          <a href="<?php echo site_url(); ?>/welcome/manageGrants">
           <div class="navList__subheading row row--align-v-center">
             <span class="navList__subheading-icon"><i class="fas fa-mountain"></i></span>
             <span class="navList__subheading-title">Gestionar becas</span>
@@ -134,7 +142,7 @@
             </div>
           </div>
           <div class="quickview__item">
-            <div class="quickview__item-total"><?=$RANK?></div>
+            <div class="quickview__item-total"><?=$grants_total?></div>
             <div class="quickview__item-description">
               <i class="zmdi zmdi-balance"></i>
               <span class="text-light">Becas</span>
@@ -151,19 +159,29 @@
         </div>
         <div class="card__main">
           <?php 
-            for($i=0;$i<5;$i++)
-            {
-              echo "<div class='card__row'>";
-                echo "<div class='card__icon'><i class='zmdi zmdi-pin-account'></i></div>";
-                echo "<div class='card__time'>";
-                  echo "<div>Fecha</div>";
-                echo "</div>";
-                echo "<div class='card__detail'>";
-                  echo "<div class='card__source text-bold'>Usuario</div>";
-                  echo "<div class='card__description'>Descripcion</div>";
-                  echo "<div class='card__note'>Notas</div>";
+          
+          $logCount=0;
+          foreach ($LOGS->result() as $log) 
+          {
+            if($logCount==5)
+              break;
+            echo "<div class='card__row'>";
+              echo "<div class='card__icon'><i class='zmdi zmdi-pin-account'></i></div>";
+              echo "<div class='card__time'>";
+                echo "<div>".$log->DATE_LOG."</div>";
+              echo "</div>";
+              echo "<div class='card__detail'>";
+                echo "<div class='card__source text-bold'>".$log->NAME_SUBUSER."</div>";
+                echo "<div class='card__description'>".$log->SUBJECT." (".$log->GAME.")</div>";
+                echo "<div class='card__note'>".$log->MESSAGE."</div>";
+                echo "<div class='card__amount'>".$log->AMOUNT."-";
+                if($log->TYPE==0) echo "Criptomonedas";
+                else if($log->TYPE==1) echo "NFTs";
+                else if($log->TYPE==2) echo "Otro";
                 echo "</div>";
               echo "</div>";
+            echo "</div>";
+            $logCount++;
             }
           ?>
           

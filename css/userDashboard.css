@@ -381,7 +381,7 @@ a:hover {
     height: 250px;
     color: #FFF;
     background-size: cover;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("../images/pagina/dashboardBackground.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("../images/pagina/dashboardBackgroundCard.jpg");
     margin-bottom: 20px;
 }
 

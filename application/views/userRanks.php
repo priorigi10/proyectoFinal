@@ -46,52 +46,76 @@
         </header>
 
         <aside class="sidenav">
-            <div class="sidenav__brand">
-                <i class="zmdi zmdi-memory zmdi-hc-2x"></i>
-                <a class="sidenav__brand-link" href="<?php echo site_url(); ?>/welcome/backUser">NFT<span class="text-light">becas</span></a>
-                <i class="fas fa-times sidenav__brand-close"></i>
+    <div class="sidenav__brand">
+      <i class="zmdi zmdi-memory zmdi-hc-2x"></i>
+        <a class="sidenav__brand-link" href="<?php echo site_url(); ?>/welcome/backUser">NFT<span class="text-light">becas</span></a>
+      <i class="fas fa-times sidenav__brand-close"></i>
+    </div>
+    <div class="sidenav__profile">
+      <div class="sidenav__profile-avatar"  style="background-image: url('<?= base_url().'images/users/'.$IMAGE; ?>');"></div>
+      <div class="sidenav__profile-title text-light"><?=$USER?></div>
+    </div>
+    <div class="row row--align-v-center row--align-h-center">
+      <ul class="navList">
+        <li class="navList__heading">NFTs</li>
+        <li>
+          <a href="<?php echo site_url(); ?>/welcome/manageNFT">
+            <div class="navList__subheading row row--align-v-center">
+              <span class="navList__subheading-icon"><i class="fas fa-briefcase-medical"></i></span>
+              <span class="navList__subheading-title">Gestionar NFTs</span>
             </div>
-            <div class="sidenav__profile">
-                <div class="sidenav__profile-avatar" style="background-image: url('<?= base_url() . 'images/users/' . $IMAGE; ?>');"></div>
-                <div class="sidenav__profile-title text-light"><?= $USER ?></div>
-            </div>
-            <div class="row row--align-v-center row--align-h-center">
-                <ul class="navList">
-                    <li class="navList__heading">NFTs</li>
-                    <li>
-                        <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-icon"><i class="fas fa-briefcase-medical"></i></span>
-                            <span class="navList__subheading-title">Gestionar NFTs</span>
-                        </div>
-                    </li>
+          </a>
+        </li>
 
-                    <li class="navList__heading">Becarios</li>
-                    <li>
-                        <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-icon"><i class="fas fa-envelope"></i></span>
-                            <span class="navList__subheading-title">Gestionar becados</span>
-                        </div>
-                    </li>
+        <li class="navList__heading">Becarios</li>
+        <li>
+          <a href="<?php echo site_url(); ?>/welcome/manageSubUsers">
+          <div class="navList__subheading row row--align-v-center">
+            <span class="navList__subheading-icon"><i class="fas fa-envelope"></i></span>
+            <span class="navList__subheading-title">Gestionar becados</span>
+          </div>
+          </a>
+        </li>
+        <li>
+          <a href="<?php echo site_url(); ?>/welcome/manageLogs">
+          <div class="navList__subheading row row--align-v-center">
+            <span class="navList__subheading-icon"><i class="fas fa-clipboard-list"></i></span>
+            <span class="navList__subheading-title">Consultar logs</span>
+          </div>
+          </a>
+        </li>
 
-                    <li class="navList__heading">Becas</li>
-                    <li>
-                        <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-icon"><i class="fas fa-mountain"></i></span>
-                            <span class="navList__subheading-title">Gestionar becas</span>
-                        </div>
-                    </li>
+        <li class="navList__heading">Becas</li>
+        <li>
+          <a href="<?php echo site_url(); ?>/welcome/manageGrants">
+          <div class="navList__subheading row row--align-v-center">
+            <span class="navList__subheading-icon"><i class="fas fa-mountain"></i></span>
+            <span class="navList__subheading-title">Gestionar becas</span>
+          </div>
+          </a>
+        </li>
+        <li>
+          <a href="<?php echo site_url(); ?>/welcome/newGrant">
+          <div class="navList__subheading row row--align-v-center">
+            <span class="navList__subheading-icon"><i class="fas fa-mountain"></i></span>
+            <span class="navList__subheading-title">Crear beca</span>
+          </div>
+          </a>
+        </li>
 
-                    <li class="navList__heading">Estadisticas</li>
-                    <li>
-                        <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-icon"><i class="fas fa-credit-card"></i></span>
-                            <span class="navList__subheading-title">finances</span>
-                        </div>
-                    </li>
-
-                </ul>
-            </div>
-        </aside>
+        <li class="navList__heading">Estadisticas</li>
+        <li>
+          <a href="<?php echo site_url(); ?>/welcome/plantilla">
+          <div class="navList__subheading row row--align-v-center">
+            <span class="navList__subheading-icon"><i class="fas fa-credit-card"></i></span>
+            <span class="navList__subheading-title">finances</span>
+          </div>
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+  </aside>
 
         <main class="main">
             <div class="container">
