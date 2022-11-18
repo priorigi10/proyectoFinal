@@ -102,15 +102,15 @@
           </a>
         </li>
 
-        <li class="navList__heading">Estadisticas</li>
-        <li>
-          <a href="<?php echo site_url(); ?>/welcome/plantilla">
-          <div class="navList__subheading row row--align-v-center">
-            <span class="navList__subheading-icon"><i class="fas fa-credit-card"></i></span>
-            <span class="navList__subheading-title">finances</span>
-          </div>
-          </a>
-        </li>
+<li class="navList__heading">Estadisticas</li>
+<li>
+  <a href="<?php echo site_url(); ?>/welcome/manageFinances">
+  <div class="navList__subheading row row--align-v-center">
+    <span class="navList__subheading-icon"><i class="fas fa-credit-card"></i></span>
+    <span class="navList__subheading-title">finances</span>
+  </div>
+  </a>
+</li>
         
       </ul>
     </div>

@@ -98,7 +98,7 @@
 
   <main class="main">
       <div class="container">
-        <h1>Gestionar NFT's</h1>
+        <h1  class="principalTitle">Gestionar NFT's</h1>
         <hr>
         <div class="row">
           <!-- edit form column -->

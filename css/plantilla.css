@@ -403,6 +403,12 @@ a:hover {
     padding-right: 0;
 }
 
+.principalTitle {
+    text-align: center;
+    margin-bottom: 0px;
+    margin-top: -50px;
+}
+
 button:hover {
     cursor: pointer;
     cursor: hand;

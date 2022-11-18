@@ -20,7 +20,7 @@
                 <label for="amount"><span>Generado: <span class="required"></span></span><input type="number" class="input-field" name="amount" value="" /></label>
 
                 <label for="type"><span>Tipo: </span><select name="type" class="select-field">
-                    <option value="0">Cripto moneda</option>
+                    <option value="0">Criptomoneda</option>
                     <option value="1">NFT</option>
                     <option value="2">otro</option>
                 </select></label>

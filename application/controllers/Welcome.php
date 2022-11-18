@@ -25,7 +25,7 @@ class Welcome extends CI_Controller {
 		// $this->load->view('Register', $matriz);
 	}
 
-	public function inicioError($code)
+	public function inicioError($code = -1)
 	{
 		switch($code)
 		{
@@ -48,6 +48,8 @@ class Welcome extends CI_Controller {
 			case 4:
 				$matriz['errorMsg']="La cuenta tiene que estar vinculada a una Beca.";
 				$matriz['msgColor']="RED";
+			break;
+			default:
 			break;
 		}
 		$matriz[0]=0;
@@ -507,4 +509,11 @@ class Welcome extends CI_Controller {
 		$this->load->view('manageLogs', $info);
 	}
 
+	public function manageFinances()
+	{
+		$info=$this->session->info;
+		$info=$this->Modelo1->getUserInfo($info["USER"]);
+		$this->load->view('manageFinances', $info);
+	}
 }
+ 

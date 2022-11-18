@@ -99,12 +99,25 @@ class Modelo1 extends CI_Model
 
         
         // $this->db->select('SUBUSERS.ID_USER, SUBUSERS.NAME_USER, SUBUSERS.MAIL, SUBUSERS.WALLET, SUBUSERS.INFO, SUBUSERS.IMAGE, SUBUSERS.ID_USER, SUBUSERS.VERIFIED, SUBUSERS.VALID, SUBUSERS.ID_USER');
-        $this->db->select('SUBUSERS.*, GRANTS.ID_GRANT');
-        $this->db->select('GRANTS.VALID as GRANTVALID');
-        $this->db->where('SUBUSERS.ID_USER', $info["ID_USER"]);
-        $this->db->where('SUBUSERS.VALID', 1);
-        $this->db->join('GRANTS', 'GRANTS.ID_SUBUSER = SUBUSERS.ID_SUBUSER', 'LEFT');
-        $info["SUBUSERS"]=$this->db->get("SUBUSERS");
+        // $this->db->select('SUBUSERS.*, GRANTS.ID_GRANT');
+        // $this->db->select('GRANTS.VALID as GRANTVALID');
+        // $this->db->where('SUBUSERS.ID_USER', $info["ID_USER"]);
+        // $this->db->where('SUBUSERS.VALID', 1);
+        // $this->db->join('GRANTS', 'GRANTS.ID_SUBUSER = SUBUSERS.ID_SUBUSER', 'LEFT');
+        // $info["SUBUSERS"]=$this->db->get("SUBUSERS");
+        
+        $sql = '
+        SELECT s.*, g.ID_GRANT, sum(g.VALID) as GRANTVALID
+        FROM SUBUSERS s, GRANTS g
+        WHERE s.ID_SUBUSER=g.ID_SUBUSER
+        GROUP BY s.NAME_SUBUSER
+        UNION
+        SELECT s.*, g.ID_GRANT, 0
+        FROM SUBUSERS s, GRANTS g
+        WHERE s.ID_SUBUSER=g.ID_SUBUSER
+        AND s.ID_SUBUSER NOT IN(SELECT ID_SUBUSER FROM GRANTS)
+        ';
+        $info["SUBUSERS"]=$this->db->query($sql);
         $info["subusers_total"]=$info["SUBUSERS"]->num_rows();
         
         $this->db->where('GRANTS.ID_USER', $info["ID_USER"]);
@@ -122,6 +135,44 @@ class Modelo1 extends CI_Model
         $this->db->order_by('SUBUSERLOGS.DATE_LOG', 'DESC');
         $info["LOGS"]=$this->db->get("SUBUSERLOGS");
         $info["LOGS_total"]=$info["LOGS"]->num_rows();
+
+            //ESTADISTICAS
+
+            $this->db->select('*, sum(AMOUNT) as TOTALAMOUNT');
+        $this->db->group_by('SUBUSERLOGS.GAME');
+        $this->db->order_by('TOTALAMOUNT', 'DESC');
+        $info['GROUPBYGAMES']=$this->db->get("SUBUSERLOGS");
+        $info["groupbyGamestTotal"]=$info['GROUPBYGAMES']->num_rows();
+        
+        $this->db->select('*');
+        //$this->db->select('*, sum(AMOUNT) as TOTALAMOUNT');//SUM(CASE WHEN ValueDate > @startMonthDate THEN cash ELSE 0 END)
+        $this->db->select('SUM(CASE WHEN type = 0 THEN AMOUNT ELSE 0 END) as TOTALAMOUNTCRYPTO');
+        $this->db->select('SUM(CASE WHEN type = 1 THEN AMOUNT ELSE 0 END) as TOTALAMOUNTNFT');
+        $this->db->select('SUM(CASE WHEN type = 2 THEN AMOUNT ELSE 0 END) as TOTALAMOUNTOTHER');
+        $this->db->join('GRANTS', 'SUBUSERLOGS.ID_GRANT = GRANTS.ID_GRANT', 'LEFT');
+        $this->db->join('SUBUSERS', 'GRANTS.ID_SUBUSER = SUBUSERS.ID_SUBUSER', 'LEFT');
+        $this->db->group_by('NAME_SUBUSER');
+        $info['GROUPBYAMOUNT']=$this->db->get("SUBUSERLOGS");
+        $info["groupbyAmountTotal"]=$info['GROUPBYAMOUNT']->num_rows();
+
+
+        // $this->db->select('*, sum(AMOUNT) as TOTALAMOUNT');
+        // // $this->db->where('SUBUSERLOGS.ID_GRANT', $grantsAux['ID_GRANT']);
+        // $this->db->join('GRANTS', 'SUBUSERLOGS.ID_GRANT = GRANTS.ID_GRANT', 'LEFT');
+        // $this->db->join('SUBUSERS', 'GRANTS.ID_SUBUSER = SUBUSERS.ID_SUBUSER', 'LEFT');
+        // $this->db->group_by('NAME_SUBUSER');
+        // // $this->db->order_by('TOTALAMOUNT', 'DESC');
+        // $info['GROUPBYAMOUNT']=$this->db->get("SUBUSERLOGS");
+        // $info["groupbyAmountTotal"]=$info['GROUPBYAMOUNT']->num_rows();
+
+        
+        $this->db->select('DATE_LOG, SUM(AMOUNT) as TOTAL');
+        $this->db->where('TYPE', 0);
+        $this->db->group_by('YEAR(DATE_LOG), MONTH(DATE_LOG)');
+        $this->db->order_by('DATE_LOG', 'DESC');
+        $this->db->limit(5);
+        $info['GRAPH']=$this->db->get("SUBUSERLOGS");
+
 
         return $info;
     }
@@ -319,7 +370,7 @@ class Modelo1 extends CI_Model
         $subUserInfo['LOGS']=$this->db->get("SUBUSERLOGS");
         
         $subUserInfo["logsTotal"]=$subUserInfo['LOGS']->num_rows();
-        
+
         // $subUserInfo['LOGS']=123;
         // $subUserInfo['NFTsTotal']=4;
         // $subUserInfo['PERCENT']=45;

@@ -43,7 +43,7 @@
                     <h1>Becas NFT</h1>
                 </header>
                 <div class="article-subhead">
-                    <h2>Aqui podras gestioanr tus becas NFT y tus becados tendran acceso a una zona privada donde actualizar su produccion.</h2>
+                    <h2>Aqui podras gestionar tus becas NFT y tus becados tendran acceso a una zona privada donde actualizar su produccion.</h2>
                 </div>
                 <div class="article-text">
                     <h2>Que son las becas NFTs.</h2>

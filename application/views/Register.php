@@ -16,7 +16,7 @@
 
   <div class="main">
     <div class="container">
-          <?php echo form_open('Welcome/index', 'id="atras"'); ?>
+          <?php echo form_open('Welcome/inicioError', 'id="atras"'); ?>
             <button type="submit" class="back"><i class="zmdi zmdi-long-arrow-left  zmdi-hc-5x"></i></button>
           <?php echo form_close(); ?>
       <div class="row">

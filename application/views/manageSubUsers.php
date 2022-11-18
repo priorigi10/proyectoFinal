@@ -102,15 +102,15 @@
           </a>
         </li>
 
-        <li class="navList__heading">Estadisticas</li>
-        <li>
-          <a href="<?php echo site_url(); ?>/welcome/plantilla">
-          <div class="navList__subheading row row--align-v-center">
-            <span class="navList__subheading-icon"><i class="fas fa-credit-card"></i></span>
-            <span class="navList__subheading-title">finances</span>
-          </div>
-          </a>
-        </li>
+<li class="navList__heading">Estadisticas</li>
+<li>
+  <a href="<?php echo site_url(); ?>/welcome/manageFinances">
+  <div class="navList__subheading row row--align-v-center">
+    <span class="navList__subheading-icon"><i class="fas fa-credit-card"></i></span>
+    <span class="navList__subheading-title">finances</span>
+  </div>
+  </a>
+</li>
         
       </ul>
     </div>
@@ -155,12 +155,6 @@ $prevPag=(int)$PAGE-1;
 
     <div class="col-xs-12">
         <h1 class="principalTitle">Mis becarios</h1>
-        <?php
-        if($SUPER==1)
-        echo "actual: SELECT `SUBUSERS`.*, `GRANTS`.`ID_GRANT`, `GRANTS`.`VALID` as `GRANTVALID` FROM `SUBUSERS` LEFT JOIN `GRANTS` ON `GRANTS`.`ID_SUBUSER` = `SUBUSERS`.`ID_SUBUSER` WHERE `SUBUSERS`.`ID_USER` = '17' AND `SUBUSERS`.`VALID` = 1";
-        echo "<br><br>";
-        echo "opcion:  SELECT `SUBUSERS`.*, `GRANTS`.`ID_GRANT`, `GRANTS`.`VALID` as `GRANTVALID` FROM `SUBUSERS` LEFT JOIN `GRANTS` ON `GRANTS`.`ID_SUBUSER` = `SUBUSERS`.`ID_SUBUSER` WHERE `SUBUSERS`.`ID_USER` = '17' AND `SUBUSERS`.`VALID` = 1 GROUP BY `SUBUSERS`.`NAME_SUBUSER`;";
-        ?>
         <table class="table table-bordered principalTable">
             <thead>
             <tr>

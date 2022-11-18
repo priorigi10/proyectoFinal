@@ -4,7 +4,6 @@ $(document).ready(() => {
     addResizeListeners();
     // setSidenavListeners();
     setUserDropdownListener();
-    renderChart();
     setMenuClickListener();
     setSidenavCloseListener();
 });
@@ -58,40 +57,70 @@ function setUserDropdownListener() {
 // }
 
 // Draw the chart
-function renderChart() {
+function monthToText(month) {
+    switch (month) {
+        case "01":
+            return "Enero";
+            break;
+        case "02":
+            return "Febrero";
+            break;
+        case "03":
+            return "Marzo";
+            break;
+        case "04":
+            return "Abril";
+            break;
+        case "05":
+            return "Mayo";
+            break;
+        case "06":
+            return "Junio";
+            break;
+        case "07":
+            return "Julio";
+            break;
+        case "08":
+            return "Agosto";
+            break;
+        case "09":
+            return "Septiembre";
+            break;
+        case "10":
+            return "Octubre";
+            break;
+        case "11":
+            return "Noviembre";
+            break;
+        case "12":
+            return "Diciembre";
+            break;
+        default:
+            return false;
+            break;
+    }
+
+}
+
+function renderChart(amount, month) {
     const chart = AmCharts.makeChart("chartdiv", {
         "type": "serial",
         "theme": "light",
         "dataProvider": [{
-            "month": "Jan",
-            "visits": 2025
+            "month": monthToText(month[4]),
+            "visits": amount[4]
         }, {
-            "month": "Feb",
-            "visits": 1882
+            "month": monthToText(month[3]),
+            "visits": amount[3]
         }, {
-            "month": "Mar",
-            "visits": 1809
+            "month": monthToText(month[2]),
+            "visits": amount[2]
         }, {
-            "month": "Apr",
-            "visits": 1322
+            "month": monthToText(month[1]),
+            "visits": amount[1]
         }, {
-            "month": "May",
-            "visits": 1122
-        }, {
-            "month": "Jun",
-            "visits": 1114
-        }, {
-            "month": "Jul",
-            "visits": 984
-        }, {
-            "month": "Aug",
-            "visits": 711
-        }, {
-            "month": "Sept",
-            "visits": 665
-        }, {
-            "month": "Oct",
-            "visits": 580
+            "month": monthToText(month[0]),
+            "visits": amount[0]
         }],
         "valueAxes": [{
             "gridColor": "#FFFFFF",

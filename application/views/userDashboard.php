@@ -107,7 +107,7 @@
 
         <li class="navList__heading">Estadisticas</li>
         <li>
-          <a href="<?php echo site_url(); ?>/welcome/plantilla">
+          <a href="<?php echo site_url(); ?>/welcome/manageFinances">
           <div class="navList__subheading row row--align-v-center">
             <span class="navList__subheading-icon"><i class="fas fa-credit-card"></i></span>
             <span class="navList__subheading-title">finances</span>
@@ -187,7 +187,7 @@
           
         </div>
       </div>
-      <div class="card">
+      <!-- <div class="card">
         <div class="card__header">
           <div class="card__header-title text-light">Ultimos <strong>documentos</strong>
           </div>
@@ -206,7 +206,7 @@
             ?>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="card card--finance">
         <div class="card__header">
           <div class="card__header-title text-light"><strong>Ganancias generales</strong>
@@ -237,6 +237,30 @@
 <script src='https://www.amcharts.com/lib/3/serial.js'></script>
 <script src='https://www.amcharts.com/lib/3/themes/light.js'></script>
 <script src="<?php echo base_url(); ?>js/userDashboard.js"></script>
+<?php
+  echo "
+  <script> 
+    let amount = [];
+    let month = [];";
+    
+    forEach($GRAPH->result() as $graph)
+    {
+      echo "amount.push('".$graph->TOTAL."');";
+      // echo "alert('".substr($graph->DATE_LOG, 5, 2)."*');";
+      echo "month.push('".substr($graph->DATE_LOG, 5, 2)."');";
+    }
+    echo "
+    renderChart(amount, month);
+  </script>";
 
+
+  
+  // let amount = [];
+  // let month = [];
+  // graph.forEach(element => {
+  //     amount.push(element[TOTAL]);
+  //     month.push(element[DATE_LOG].toLocaleString('default', { month: 'long' }));
+  // });
+?>
 </body>
 </html>
