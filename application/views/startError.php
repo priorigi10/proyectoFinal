@@ -40,7 +40,10 @@
         <section class="article">
             <div class="article-inner">
                 <header class="article-head">
-                    <h1>Becas NFT</h1>
+                    <h1>
+                        <img src="<?php echo base_url(); ?>images/pagina/logo.png" width="50"/>
+                        Becas NFT
+                    </h1>
                 </header>
                 <div class="article-subhead">
                     <h2>Aqui podras gestioanr tus becas NFT y tus becados tendran acceso a una zona privada donde actualizar su produccion.</h2>

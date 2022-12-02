@@ -47,7 +47,7 @@
 
         <aside class="sidenav">
     <div class="sidenav__brand">
-      <i class="zmdi zmdi-memory zmdi-hc-2x"></i>
+        <img src="<?php echo base_url(); ?>images/pagina/logo.png" width="30"/>
         <a class="sidenav__brand-link" href="<?php echo site_url(); ?>/welcome/backUser">NFT<span class="text-light">becas</span></a>
       <i class="fas fa-times sidenav__brand-close"></i>
     </div>

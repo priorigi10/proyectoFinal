@@ -190,6 +190,8 @@ $prevPag=(int)$PAGE-1;
         <h4>
             <p>
                 Hecho por: <a href="https://es.linkedin.com/in/carlos-llorente-llorente-43869a147" target="_blank">Carlos Ll.</a>
+                <br>
+                <img src="<?php echo base_url(); ?>images/pagina/logo.png" width="70"/>
             </p>
         </h4>
     </footer>
